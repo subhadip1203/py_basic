@@ -1,21 +1,21 @@
 from aiohttp import web
 import asyncio
 import random
-from state.counter import queue
+from store.tasks import addItem , getItem
 
 async def main():
     while True:
-        global queue 
-        token = await queue.get()
-        print('number is '+token)
+        tokens = getItem()
+        print('tokens are : ')
+        print(tokens)
         await asyncio.sleep(5)        
 
 
 # server part
 async def handle(request):
-    global queue 
+    
     token = random.random()
-    await queue.put(token)
+    addItem(token)
     name = request.match_info.get('name', "Anonymous")
     text = "Hello, " + name
     return web.Response(text=text)
