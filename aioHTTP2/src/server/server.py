@@ -1,7 +1,7 @@
 from aiohttp import web
 import asyncio
 import random
-from store.tasks import addItem , getItem
+from src.store.tasks import addItem , getItem
 
 async def main():
     while True:

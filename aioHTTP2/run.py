@@ -1,14 +1,12 @@
 
-
-from aiohttp import web
 import asyncio
-from server.server import main ,start_app
+from src.server.server import start_app
+from src.client import main
 # import counter
-import store.tasks as tasks
+import src.store.tasks as tasks
 
 async def start_async_app():
     await asyncio.gather(*[ main(), start_app() ])
-
 
 
 if __name__ == "__main__":    
