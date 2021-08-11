@@ -1,14 +1,15 @@
 
-def init():
+def init(): 
     global myList
-    global myDict
+    global myDict   
     myList = []
     myDict = {}
 
 def addItem(item):
-    global myList
-    myList.append(item)
-
+    if item not in myDict:
+        myList.append(item)
+        myDict[item] = "something"
+   
 def getItem():
-    global myList
+    print(myDict)
     return(myList)
