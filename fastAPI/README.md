@@ -13,3 +13,8 @@ pip install fastapi[all]
 
 every time install new package ,edit requirement.txt =>
 pip freeze > requirements.txt
+
+
+### run server 
+
+export PYTHONDONTWRITEBYTECODE=1 && uvicorn main:app --reload
