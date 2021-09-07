@@ -1,5 +1,7 @@
 __pycache__/
 env/
+cert/
 .vscode
 .DS_Store
 /ERP_project/myCustomeConfig.py
+.env
