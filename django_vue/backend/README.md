@@ -31,3 +31,8 @@ Setup Virtual Environment in the project directory :
   - with ssl certificates : `gunicorn project_setup.wsgi:application --keyfile=./cert/key.pem --certfile=./cert/cert.pem`
   - with certificate and hot reload : `gunicorn project_setup.wsgi:application --reload --keyfile=./cert/key.pem --certfile=./cert/cert.pem`
 
+6. create new project and apps
+- start new project : `django-admin startproject mysetup .`
+- create folder : v1 `mkdir v1`
+- create new folder inside v1 and install app : `mkdir v1/auth && python manage.py startapp auth v1/auth`
+- add app name in seetings.py : `v1.auth`
