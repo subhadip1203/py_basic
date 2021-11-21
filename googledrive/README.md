@@ -12,3 +12,11 @@ https://stackoverflow.com/questions/29765905/how-to-get-the-access-token-from-go
 
 
 https://developers.google.com/identity/protocols/oauth2/web-server#httprest_5
+
+
+
+### steps:
+
+1. create an app , and get user accesstoken 
+2. save access token in encrypted form
+3. upload data to google drive using access token
