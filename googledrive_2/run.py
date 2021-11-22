@@ -1,22 +1,3 @@
-# import google.oauth2.credentials
-# import google_auth_oauthlib.flow
-
-# flow = google_auth_oauthlib.flow.Flow.from_client_secrets_file(
-#   'client_secret.json',
-#   scopes=['https://www.googleapis.com/auth/drive.metadata.readonly']
-# )
-
-
-# flow.redirect_uri = 'https://www.example.com/oauth2callback'
-
-
-# authorization_url, state = flow.authorization_url(
-#   access_type='offline',
-#   include_granted_scopes='true'
-# )
-
-# print(authorization_url)
-# print(state)
 
 from __future__ import print_function
 import os.path
@@ -26,7 +7,7 @@ from google.auth.transport.requests import Request
 from google.oauth2.credentials import Credentials
 
 # If modifying these scopes, delete the file token.json.
-SCOPES = ['https://www.googleapis.com/auth/drive.appdata']
+SCOPES = ['https://www.googleapis.com/auth/drive.file']
 
 def main():
     """Shows basic usage of the Drive v3 API.
@@ -45,7 +26,8 @@ def main():
         else:
             flow = InstalledAppFlow.from_client_secrets_file(
                 'credentials.json', SCOPES)
-            creds = flow.run_local_server(port=0)
+            creds = flow.run_local_server(port=3000,open_browser=False)
+           
         # Save the credentials for the next run
         with open('token.json', 'w') as token:
             token.write(creds.to_json())

@@ -5,3 +5,5 @@ cert/
 .DS_Store
 /ERP_project/myCustomeConfig.py
 .env
+token.json
+credentials.json
