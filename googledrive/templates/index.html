@@ -6,7 +6,7 @@
 	</head>
 	<body>
 		<p>Drive API Quickstart</p>
-
+		<button id="loginbutton"> Autorized Google Drive</button>
 		
 		<button id="authorize_button" style="display: none">Authorize</button>
 		<button id="signout_button" style="display: none">Sign Out</button>
@@ -17,10 +17,76 @@
 			// Client ID and API key from the Developer Console
 			var CLIENT_ID ="243179109290-q26cu8rvivj7d9c7hsappjavp690qgi3.apps.googleusercontent.com";
 			var API_KEY = "AIzaSyCFbS7az5JSAQW_aiXSLE5prOeQHOVmWAQ";
-			var SCOPES = 'https://www.googleapis.com/auth/drive.appdata';
+			var SCOPES = 'https://www.googleapis.com/auth/drive.file'; //'https://www.googleapis.com/auth/drive.appdata'; //
+			// Array of API discovery doc URLs for APIs used by the quickstart
+			var DISCOVERY_DOCS = ["https://www.googleapis.com/discovery/v1/apis/drive/v3/rest"];
+
+			const authorizeButton = document.getElementById("loginbutton")
+
+			
+			/**
+       *  on page load , this function will run
+       */
+			 function handleClientLoad() {
+        gapi.load('client:auth2', initClient);
+      }
+			
+			/**
+       *  after page on load handleClientLoad run
+			 * 	this function will run
+       */
+
+			function initClient() {
+        gapi.client.init({
+          apiKey: API_KEY,
+          clientId: CLIENT_ID,
+          discoveryDocs: DISCOVERY_DOCS,
+          scope: SCOPES
+        }).then(function () {
+          // Listen for sign-in state changes.
+          gapi.auth2.getAuthInstance().isSignedIn.listen(updateSigninStatus);
+
+          // Handle the initial sign-in state.
+          updateSigninStatus(gapi.auth2.getAuthInstance().isSignedIn.get());
+
+					// adding onclick function to login button , so it will not work till all function run properly
+          authorizeButton.onclick = handleAuthClick;
+        }, function(error) {
+          appendPre(JSON.stringify(error, null, 2));
+        });
+      }
+
+
+
+			function handleAuthClick(event) {
+        gapi.auth2.getAuthInstance().signIn();
+      }
+
+      /**
+       *  Called when the signed in status changes, to update the UI
+       *  appropriately. After a sign-in, the API is called.
+       */
+      
+			function updateSigninStatus(isSignedIn) {
+				
+        if (isSignedIn) {
+					const login_data = gapi.auth2.getAuthInstance().currentUser.get().getAuthResponse()
+					console.log(login_data.access_token)
+          authorizeButton.style.display = 'none';
+          
+        } else {
+          authorizeButton.style.display = 'block';
+        }
+      }
+
+			
 
 		</script>
 
-		<script async defer src="https://apis.google.com/js/api.js"></script>
+		<script async defer src="https://apis.google.com/js/api.js" 
+			onload="this.onload=function(){};handleClientLoad()"
+			onreadystatechange="if (this.readyState === 'complete') this.onload()">
+		</script>
+
 	</body>
 </html>
