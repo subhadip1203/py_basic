@@ -47,14 +47,53 @@ def main():
     #     for item in items:
     #         print(u'{0} ({1})'.format(item['name'], item['id']))
 
-    file_metadata = {'name': 'photo.png'}
-    media = MediaFileUpload('files/photo.png', mimetype='image/png')
+    # file_metadata = {'name': 'photo.png'}
+    # media = MediaFileUpload('files/photo.png', mimetype='image/png')
     
-    file = service.files().create(body=file_metadata,
-                                        media_body=media,
-                                        fields='id').execute()
-    print ('File ID: %s' % file.get('id'))
+    # file = service.files().create(body=file_metadata,
+    #                                     media_body=media,
+    #                                     fields='id').execute()
+    # print ('File ID: %s' % file.get('id'))
 
+   
+    # save folder id in this variable
+    folderId = None
+
+    # If folder found , we make it True
+    folderFound = False
+
+    # for google drive iteration
+    page_token = None
+    
+    response = service.files().list(
+        q="mimeType='application/vnd.google-apps.folder'",
+        spaces='drive',
+        fields='nextPageToken, files(id, name)',
+        pageToken=page_token
+    ).execute()
+    for file in response.get('files', []):
+        
+        FolderName =file.get('name',None)
+        print(FolderName)
+        # Process change
+        if file.get('name',None) == "Habtalks" :
+            folderId = file.get('id')
+            folderFound = True
+        page_token = response.get('nextPageToken', None)
+        if page_token is None:
+            break
+    
+    ### ------ create a folder ---------##
+    if folderFound == False :
+        print("creating New Folder")
+        file_metadata = {
+            'name': 'Habtalks',
+            'mimeType': 'application/vnd.google-apps.folder'
+        }
+        file = service.files().create(body=file_metadata, fields='id').execute()
+        folderId = file.get('id')
+    
+    print(folderId)
 
 if __name__ == '__main__':
     main()
