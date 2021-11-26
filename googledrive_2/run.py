@@ -95,5 +95,17 @@ def main():
     
     print(folderId)
 
+    if folderId != None:
+        file_metadata = {
+            'name': 'gre_fake_photo1.png',
+            'parents': [folderId]
+        }
+        media = MediaFileUpload('files/gre_fake_photo1.png', mimetype='image/png')
+        
+        file = service.files().create(body=file_metadata,
+                                            media_body=media,
+                                            fields='id').execute()
+        print ('File ID: %s' % file.get('id'))
+
 if __name__ == '__main__':
     main()
